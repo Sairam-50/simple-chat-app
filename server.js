@@ -1,17 +1,13 @@
 const express = require('express');
 const http = require('http');
-const socketIo = require('socket.io');
+const socketIO = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIO(server);
 
-// Serve the static HTML file
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
+app.use(express.static(__dirname + '/public'));
 
-// Socket.io logic
 io.on('connection', (socket) => {
   console.log('A user connected');
 
@@ -24,8 +20,6 @@ io.on('connection', (socket) => {
   });
 });
 
-// Start the server
-const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+server.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });
